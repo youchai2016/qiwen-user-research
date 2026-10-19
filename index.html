@@ -1,0 +1,979 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>小红书用户需求 & 竞品缺陷调研 · 2026-10-19</title>
+<meta name="description" content="126 篇小红书笔记、2021 条评论：家长辅导作业 / 拍照解题 / 考研与高三人群的用户需求，以及小猿AI、作业帮、豆包爱学、千问的缺陷清单。每条引文附原帖链接。" />
+<style>
+  :root {
+    --ink: #1c1c1e; --ink-2: #48484a; --ink-3: #8e8e93; --line: #e5e5ea;
+    --bg: #fbfbfd; --card: #ffffff; --accent: #0a6cff; --accent-soft: #eaf2ff;
+    --red: #d70015; --red-soft: #ffe9eb; --amber: #b25e00; --amber-soft: #fff4e5; --green: #1d7f4f;
+    --radius: 16px; --shadow: 0 1px 2px rgba(0,0,0,.04), 0 8px 28px rgba(0,0,0,.05);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.75 -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 20px 80px; }
+  header.hero { padding: 72px 0 40px; }
+  .kicker { color: var(--ink-3); font-size: 13px; letter-spacing: .18em; text-transform: uppercase; font-weight: 600; }
+  h1 { font-size: clamp(30px, 5vw, 44px); line-height: 1.18; letter-spacing: -.02em; margin: 14px 0 18px; }
+  .hero p { color: var(--ink-2); font-size: 17px; max-width: 700px; margin: 0 0 26px; }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .stat { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow); }
+  .stat b { display: block; font-size: clamp(22px, 4vw, 30px); letter-spacing: -.02em; }
+  .stat span { color: var(--ink-3); font-size: 12.5px; }
+  nav.toc { position: sticky; top: 0; z-index: 20; background: rgba(251,251,253,.86); backdrop-filter: saturate(180%) blur(14px); border-bottom: 1px solid var(--line); margin: 40px 0 8px; }
+  nav.toc .inner { max-width: 880px; margin: 0 auto; padding: 10px 20px; display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+  nav.toc a { white-space: nowrap; font-size: 13px; color: var(--ink-2); background: var(--card); border: 1px solid var(--line); padding: 5px 12px; border-radius: 999px; }
+  nav.toc a:hover { color: var(--accent); border-color: #c9dcff; background: var(--accent-soft); text-decoration: none; }
+  .section { padding: 46px 0 10px; border-top: 1px solid var(--line); margin-top: 28px; }
+  .section:first-of-type { border-top: 0; }
+  .section-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 18px; }
+  .section-head .no { color: var(--accent); font-weight: 700; font-size: 13px; letter-spacing: .16em; }
+  h2 { font-size: clamp(24px, 3.6vw, 32px); letter-spacing: -.02em; margin: 0; }
+  h3 { font-size: 19px; letter-spacing: -.01em; margin: 34px 0 12px; }
+  .lead { color: var(--ink-2); font-size: 16.5px; margin: 0 0 20px; }
+  .findings { margin: 8px 0 0; padding-left: 0; list-style: none; counter-reset: f; }
+  .findings li { position: relative; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px 18px 58px; margin-bottom: 12px; box-shadow: var(--shadow); counter-increment: f; }
+  .findings li::before { content: counter(f); position: absolute; left: 18px; top: 17px; width: 26px; height: 26px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-weight: 700; font-size: 13px; display: grid; place-items: center; }
+  .quote-list { display: grid; gap: 12px; }
+  figure.quote { margin: 0; background: var(--card); border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 12px; padding: 16px 18px; box-shadow: var(--shadow); }
+  figure.quote blockquote { margin: 0 0 10px; font-size: 15.5px; color: var(--ink); }
+  figure.quote figcaption { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12.5px; color: var(--ink-3); align-items: baseline; }
+  figure.quote .who { color: var(--ink-2); }
+  figure.quote .who b { color: var(--amber); font-weight: 600; }
+  figure.quote figcaption a { font-size: 12.5px; }
+  .brand { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 8px 22px 22px; margin: 22px 0; box-shadow: var(--shadow); }
+  .brand > h3 { margin-top: 20px; }
+  .defect { border-top: 1px dashed var(--line); padding: 18px 0 6px; }
+  .defect:first-of-type { border-top: 0; }
+  .defect-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .defect-head h4 { margin: 0; font-size: 16px; }
+  .sev { font-size: 11.5px; font-weight: 700; padding: 2px 9px; border-radius: 999px; letter-spacing: .04em; }
+  .sev-high { background: var(--red-soft); color: var(--red); }
+  .sev-mid { background: var(--amber-soft); color: var(--amber); }
+  .sev-low { background: #eef0f3; color: var(--ink-2); }
+  .defect p { color: var(--ink-2); font-size: 14.5px; margin: 8px 0 12px; }
+  .defect-evidence { display: grid; gap: 10px; }
+  .defect-evidence figure.quote { border-left-color: var(--ink-3); box-shadow: none; background: #fafafc; }
+  .note { font-size: 13.5px; color: var(--ink-3); border-left: 2px solid var(--line); padding-left: 12px; margin: 14px 0 4px; }
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); box-shadow: var(--shadow); }
+  table { border-collapse: collapse; width: 100%; min-width: 680px; font-size: 14px; }
+  th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { background: #f5f5f7; font-size: 12.5px; color: var(--ink-2); font-weight: 600; white-space: nowrap; }
+  tr:last-child td { border-bottom: 0; }
+  .p { font-size: 12px; font-weight: 700; padding: 1px 8px; border-radius: 999px; }
+  .p0 { background: var(--red-soft); color: var(--red); }
+  .p1 { background: var(--accent-soft); color: var(--accent); }
+  .p2 { background: #eef0f3; color: var(--ink-2); }
+  .callout { background: var(--accent-soft); border: 1px solid #cfe0ff; border-radius: var(--radius); padding: 18px 20px; font-size: 16.5px; color: #123; }
+  .limits { color: var(--ink-2); font-size: 14.5px; padding-left: 20px; }
+  .limits li { margin: 6px 0; }
+  footer { margin-top: 60px; padding-top: 22px; border-top: 1px solid var(--line); color: var(--ink-3); font-size: 12.5px; }
+  @media (max-width: 640px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    header.hero { padding: 44px 0 26px; }
+    .brand { padding: 4px 14px 16px; }
+    body { font-size: 15.5px; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <div class="kicker">小红书公开内容研究 · 2026-10-19</div>
+      <h1>家长在崩溃什么，<br />竞品在什么地方让人卸载</h1>
+      <p>一轮小红书定向调研：<b>126 篇笔记、2021 条评论</b>。主题是「小孩辅导作业 / 拍照解题 / 考研与高三」。每条引文都附原帖链接，扫一眼就能回去核对上下文。</p>
+      <div class="stats">
+        <div class="stat"><b>126</b><span>篇笔记</span></div>
+        <div class="stat"><b>2021</b><span>条评论</span></div>
+        <div class="stat"><b>124</b><span>条可回溯原帖</span></div>
+        <div class="stat"><b>3</b><span>轮抓取</span></div>
+      </div>
+    </header>
+    <nav class="toc"><div class="inner"><a href="#summary">01 结论速览</a><a href="#parents">02 用户需求 · 辅导作业的家长</a><a href="#mistakes">03 用户需求 · 错题本与复盘</a><a href="#pressure">04 用户需求 · 高三与考研：焦虑、孤独、要具体的下一步</a><a href="#ai-usage">05 用户需求 · 家长怎么用 AI（以及为什么不用）</a><a href="#redline">06 红线 · 搜题依赖与考试作弊</a><a href="#competitors">07 竞品缺陷清单</a><a href="#implications">08 对「学会了鸭」的产品启示</a><a href="#method">09 方法与样本</a></div></nav>
+    
+  <section class="section" id="summary">
+    <div class="section-head"><span class="no">01</span><h2>结论速览</h2></div>
+    
+    <p class="lead">三轮抓取、126 篇笔记、2021 条评论读完后的五个结论。每一条下面都有用户原声和原帖链接，可点开核对。</p>
+    <ol class="findings">
+      <li><b>「拍照解题」在家长端不是搜答案，是「晚上那 40 分钟」的陪写。</b>检查作业、讲不明白、情绪失控、学校把任务转给家长——四个痛点同时出现，且互相放大。</li>
+      <li><b>家长对 AI 的第一顾虑不是收费，是「算错 / 看错图」。</b>「AI 会做题 ≠ AI 看得懂题」「同一道题拍三遍答案遍遍不一样」是原话；被夸的产品是「AI 解法 + 传统思路互相验证」。</li>
+      <li><b>「讲明白」比「答案对」更值钱，且「不直接给答案」开始成为卖点。</b>家长主动求「能引导思路、不直接给答案」的工具；「答疑笔」类产品正是靠这句话卖货。</li>
+      <li><b>错题本是「想做但做不下去」的高频需求，缺口在「抄题费时 + 复习没节奏 + 不知道自己错在哪」。</b>已有大量用户自己用 codex / 飞书 / Obsidian 手搓错题系统——这是产品化机会。</li>
+      <li><b>「搜题 = 抄答案」的污名和考试作弊黑产是红线。</b>家长与老师端在痛斥「作业全对、一考就错」；搜索结果里仍有大量「旁白搜题避检测」的作弊交流。定位必须主动切割「给答案」。</li>
+    </ol>
+  </section>
+  <section class="section" id="parents">
+    <div class="section-head"><span class="no">02</span><h2>用户需求 · 辅导作业的家长</h2></div>
+    
+    <p class="lead">语料里需求密度最高的一层。核心场景不是「学生拍照搜题」，而是家长下班后陪写作业的那一两个小时。</p>
+    <h3>2.1 情绪：不是夸张，是真实事故</h3>
+    <p>心理老师整理的笔记里记录了多起极端事件（合肥妈妈凌晨四点半辅导时脑干出血离世、杭州陪写作业心梗、广东脑动脉瘤破裂）。评论区的共鸣不是「故事」，是「这就是我」。</p>
+    <div class="quote-list">
+    <figure class="quote">
+      <blockquote>一点也不好笑，我要哭了，这就是我，可怜的我，发疯的我，要死的我。</blockquote>
+      <figcaption>
+        <span class="who">用户已注销 <b>赞 70</b></span>
+        <a href="https://www.xiaohongshu.com/explore/694765c2000000000d03e8c8?xsec_token=ABUKqC-qZv8WMmWQfAiqTCFsb0en5qXMc4RXkqxVdnpp0%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《妈妈为什么很暴躁》· 马里奥动起来 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>我的结节和乳腺增生就是这么来的。</blockquote>
+      <figcaption>
+        <span class="who">欧气界的小白</span>
+        <a href="https://www.xiaohongshu.com/explore/694765c2000000000d03e8c8?xsec_token=ABUKqC-qZv8WMmWQfAiqTCFsb0en5qXMc4RXkqxVdnpp0%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《妈妈为什么很暴躁》· 马里奥动起来 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>他上次是咋得的100分？</blockquote>
+      <figcaption>
+        <span class="who">谭咪 <b>赞 4</b></span>
+        <a href="https://www.xiaohongshu.com/explore/694765c2000000000d03e8c8?xsec_token=ABUKqC-qZv8WMmWQfAiqTCFsb0en5qXMc4RXkqxVdnpp0%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《妈妈为什么很暴躁》· 马里奥动起来 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>看完心里骂完孩子的罪恶感已完全消除，根本控制不住，把自己催死。</blockquote>
+      <figcaption>
+        <span class="who">姜太爱逛吃</span>
+        <a href="https://www.xiaohongshu.com/explore/694765c2000000000d03e8c8?xsec_token=ABUKqC-qZv8WMmWQfAiqTCFsb0en5qXMc4RXkqxVdnpp0%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《妈妈为什么很暴躁》· 马里奥动起来 ↗</a>
+      </figcaption>
+    </figure></div>
+    <h3>2.2 能力：「自己会做」和「教会孩子」是两门技能</h3>
+    <div class="quote-list">
+    <figure class="quote">
+      <blockquote>自己会做作业，和如何教会孩子，是 2 门不同的技能。后者也要学习提高呀。</blockquote>
+      <figcaption>
+        <span class="who">焦虑的金色传说 <b>赞 1</b></span>
+        <a href="https://www.xiaohongshu.com/explore/6a221e7f0000000035038de1?xsec_token=ABik6xh8uUoVX2cafLf4NYCSCYjhD5EFs-QAqM4Djw6tU%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《辅导作业气到脑出血！怎么与个世界和解？》· 程序员蛋哥 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>90% 的家长，根本不适合给孩子讲数学题——你用的可能是「野路子」解法，孩子考试按你的方法写直接扣分。</blockquote>
+      <figcaption>
+        <span class="who">数学思维（11 年数学老师）</span>
+        <a href="https://www.xiaohongshu.com/explore/681eaaed000000002301267b?xsec_token=ABTiZALxZISUBtWtmXUl9fykwG1X1-5INa05DTh3xOn7o%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《为什么家长尽量不要给孩子讲数学题？》· 数学思维 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>小学数学到了后面，一道题好几个弯，我自己都得先看半天答案，讲的时候东一句西一句，他能听懂才怪。</blockquote>
+      <figcaption>
+        <span class="who">张芝士｜不讲题的妈妈</span>
+        <a href="https://www.xiaohongshu.com/explore/6a9abaa6000000000d0241fb?xsec_token=ABPf9HH1t4YD_OCt1yF7jMCsJUYmNU63JzcspjqWi8GF0%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《辅导作业讲了三遍还不会，后来我干脆不讲了》· 张芝士｜不讲题的妈妈 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>家里的钱全部在老婆手上……现在想来不会真的就是这种情况吧。</blockquote>
+      <figcaption>
+        <span class="who">树上考拉 <b>赞 618</b></span>
+        <a href="https://www.xiaohongshu.com/explore/697db2d5000000001a03320f?xsec_token=ABu7_v_aXsb4vEID6Zdxu11YGkuXmzlF6nvvpfMtVMLcI%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《陪读妈妈让叔叔们破防要让过错方净身出户》· LawyerYang ↗</a>
+      </figcaption>
+    </figure></div>
+    <h3>2.3 时间与家校责任：检查作业是每天固定的一笔支出</h3>
+    <div class="quote-list">
+    <figure class="quote">
+      <blockquote>以前每天晚上一道道题去对答案、检查作业，很费时间，至少要花 40 分钟，而且还经常看走眼。</blockquote>
+      <figcaption>
+        <span class="who">小知小盆友（笔记正文）</span>
+        <a href="https://www.xiaohongshu.com/explore/6abb95ef000000000a024eb5?xsec_token=ABdR8PZ3qqb3b9_S2h0zKf2GJuTSEcMwilMdNSujitbzI%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《开学检查作业，我终于不用一道道核对了！》· 小知小盆友 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>作业帮，豆包，夸克，全部扫一遍。</blockquote>
+      <figcaption>
+        <span class="who">yy</span>
+        <a href="https://www.xiaohongshu.com/explore/69e98416000000001b0230d4?xsec_token=ABi40N-pMjDLdxxmaoCkKAEk1ugIueYjSRr3cXw9CHKTA%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《四年级每晚给孩子检查作业太太痛苦了！ 我特别特别想知道，你们晚上给孩子检查作业吗？ #家》· 果果妈咪 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>白天上班，晚上辅导孩子作业。以前都在学校学，现在在学校学一半，留一半让家长教。</blockquote>
+      <figcaption>
+        <span class="who">随自己的心去生活 <b>赞 3</b></span>
+        <a href="https://www.xiaohongshu.com/explore/691c6e44000000001e0155e2?xsec_token=ABCge0f0x8x58eJyn-LjLRLbBWax4ER-wkszSofuYGaf0%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《家长辅导作业的崩溃瞬间！》· 大雄 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>学校在群里发答案让家长在家批改校对；家长本来在外上班回来很累，还要马不停蹄坐在孩子边上。</blockquote>
+      <figcaption>
+        <span class="who">chiara.陈 <b>赞 3</b></span>
+        <a href="https://www.xiaohongshu.com/explore/6a12e86e000000003501f67e?xsec_token=ABKJvxrMGp2OckBDMWTkkemREuCCuTaXuZnBkNXXjYJ3U%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《辅导作业被气到崩溃？情绪真的会“杀人”》· 心理老师的陪伴笔记 ↗</a>
+      </figcaption>
+    </figure></div>
+    <h3>2.4 信任：AI 一旦算错，家长不敢用第二次</h3>
+    <div class="quote-list">
+    <figure class="quote">
+      <blockquote>AI 会做题 ≠ AI 一定看得懂题。电路图里一个数字看错，后面整个答案就跟着错。最怕的不是孩子不会，是你俩一起被 AI 带沟里去了。</blockquote>
+      <figcaption>
+        <span class="who">if.jin（笔记正文）</span>
+        <a href="https://www.xiaohongshu.com/explore/6aaca637000000002900f2cb?xsec_token=ABdCF_fsQY2gNUBIougm9j-66ePtQixra7esEPkXWzapI%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《本来只是想测测AI，结果给我整不敢乱用了》· if.jin ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>同一道题拍三遍，答案遍遍不一样。</blockquote>
+      <figcaption>
+        <span class="who">要睡觉了晚安（笔记正文）</span>
+        <a href="https://www.xiaohongshu.com/explore/6925680c000000001b0323c2?xsec_token=ABGYveYYvnTkRO1oaYoTXa5FpybJSG1zRBbqqR8qrB_B8%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《拔草千问，避雷吧😓》· 要睡觉了晚安 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>搜题多了还搜不出来题。</blockquote>
+      <figcaption>
+        <span class="who">白兮 <b>赞 1</b></span>
+        <a href="https://www.xiaohongshu.com/explore/6925680c000000001b0323c2?xsec_token=ABGYveYYvnTkRO1oaYoTXa5FpybJSG1zRBbqqR8qrB_B8%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《拔草千问，避雷吧😓》· 要睡觉了晚安 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>AI 批改作业的准确率就不太行，试过几个国内的，准确率都不算太高。有一题甚至 3 个 AI 全部出错。</blockquote>
+      <figcaption>
+        <span class="who">熊喵启萌</span>
+        <a href="https://www.xiaohongshu.com/explore/6a2fea02000000001603e7d9?xsec_token=ABP_9FDOUbs9dCHDijOAtlYGXaahT3BFeDYZRTXoGBF2E%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《市面上有靠谱的AI辅导工具吗，不是指批改作业或者直接给答案的那种，是可以跟娃交流、引导娃》· 熊喵启萌 ↗</a>
+      </figcaption>
+    </figure></div>
+  </section>
+  <section class="section" id="mistakes">
+    <div class="section-head"><span class="no">03</span><h2>用户需求 · 错题本与复盘</h2></div>
+    
+    <p class="lead">这是扩样本里最意外的发现：错题本不是「学习习惯问题」，而是一个被反复执行失败的产品需求——用户自己都在造工具。</p>
+    <h3>3.1 为什么坚持不下来：三个结构性原因</h3>
+    <div class="quote-list">
+    <figure class="quote">
+      <blockquote>我以前的数学错题本抄得特别认真：题抄一遍、解析抄一遍，两本写满，结果真正翻的次数不超过三次，考试照样错在同一类题上。抄题太花时间、复习全靠想起来、说不清自己到底输在概念、方法还是哪个知识点。</blockquote>
+      <figcaption>
+        <span class="who">云开同学（自制艾宾浩斯错题系统）</span>
+        <a href="https://www.xiaohongshu.com/explore/697cb3a80000000028022a8a?xsec_token=ABCchakWteHZi6LkoLNW2kDSACHZmjlTbEzYCqBQqpoWQ%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《手搓了一个考研数学错题系统》· 云开同学 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>我感觉错的题特别多，我都整理不过来……粗略的整理字写的不好看，我还不想看。我想知道那些人是怎么快速把错题在有效时间内整理出来的。</blockquote>
+      <figcaption>
+        <span class="who">开心 <b>赞 2</b></span>
+        <a href="https://www.xiaohongshu.com/explore/69a2e5a0000000001b014330?xsec_token=ABGRyFBkC1CN5GRRAUpR4OMbNEjXSgmFUT0S4vj_Yi7BM%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《教你如何正确使用错题本📝 逆袭学霸！》· 青枝薏蔓🥝 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>其实我不喜欢做笔记和做错题本真的不是因为我懒，是我强迫症太严重了——手写字体不工整会很难受，还浪费时间。</blockquote>
+      <figcaption>
+        <span class="who">佐江</span>
+        <a href="https://www.xiaohongshu.com/explore/6829bedd0000000021019802?xsec_token=ABrcZt_rUs3lt_trW7_v0sARqowFt9T6bV_BHG0y3MFwU%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《来自一位被错题本逼疯的强迫症》· 佐江 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>错题太多反而激励我更加想学懂的心！！！</blockquote>
+      <figcaption>
+        <span class="who">Money <b>赞 21</b></span>
+        <a href="https://www.xiaohongshu.com/explore/69de62b6000000001a021041?xsec_token=AB0oUJNbitc3PMPCHI-BEsKr06uBt_40YylyKlGnxpxjk%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《该怎么不被错题影响到继续学习下去的情绪》· 医路文沫 ↗</a>
+      </figcaption>
+    </figure></div>
+    <h3>3.2 正确形态被用户自己定义出来了：诊断 + 引导 + 巩固</h3>
+    <div class="quote-list">
+    <figure class="quote">
+      <blockquote>一个合格的错题本，不能只有答案，必须要有这三样：要诊断（不仅知道错了，更要知道为什么错）；要引导（正确解法步骤清晰，家长辅导有底气）；要巩固（举一反三的变式题，才是检验孩子是否真懂的试金石）。</blockquote>
+      <figcaption>
+        <span class="who">莫非</span>
+        <a href="https://www.xiaohongshu.com/explore/6944aa96000000001e013f52?xsec_token=ABmP5jHB2H3YbsUlgmz2b3yJga0HWgYkQBOYGeeM6Ye50%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《这才是家长用的错题本》· 莫非 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>循环复习的最高效方式不是重做原题，是做同类变式题——原题会做不代表真懂。建议每个错题配 2-3 道变式题，隔 3 天、7 天、14 天各练一次。</blockquote>
+      <figcaption>
+        <span class="who">知脉补学</span>
+        <a href="https://www.xiaohongshu.com/explore/69a2e5a0000000001b014330?xsec_token=ABGRyFBkC1CN5GRRAUpR4OMbNEjXSgmFUT0S4vj_Yi7BM%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《教你如何正确使用错题本📝 逆袭学霸！》· 青枝薏蔓🥝 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>AI 省下来的抄题时间，就该用在真正的提分上。</blockquote>
+      <figcaption>
+        <span class="who">知脉补学</span>
+        <a href="https://www.xiaohongshu.com/explore/6944aa96000000001e013f52?xsec_token=ABmP5jHB2H3YbsUlgmz2b3yJga0HWgYkQBOYGeeM6Ye50%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《这才是家长用的错题本》· 莫非 ↗</a>
+      </figcaption>
+    </figure></div>
+    <h3>3.3 需求已经外溢成「自己动手做产品」</h3>
+    <p>「用 codex 做个电子错题本」358 赞、326 收藏；「手搓了一个考研数学错题系统」；评论里还有人用 AI OCR 识别转 LaTeX 写入 Obsidian、给孩子搭知识库。用户要的功能非常具体：</p>
+    <div class="quote-list">
+    <figure class="quote">
+      <blockquote>自动生成知识点标签，记录错题次数，重做时间。我之前用 AI OCR 识别转 latex，跑脚本写入 obsidian，打标签，然后记录时间。然后发现学生错题真的巨多，放弃了……</blockquote>
+      <figcaption>
+        <span class="who">没事多学习 <b>赞 4</b></span>
+        <a href="https://www.xiaohongshu.com/explore/6a74c9ba0000000008011a15?xsec_token=ABDGbdIlEbh9b0Fx2rU4VP-JCSfCLuNIkWS1AP0nNyRBk%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《用codex做个电子错题本》· 良い夜 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>我也考虑用 Obsidian 搭建孩子的知识库，不然每次使用完 AI 下次还是没有沉淀。</blockquote>
+      <figcaption>
+        <span class="who">程序员妈妈</span>
+        <a href="https://www.xiaohongshu.com/explore/6944aa96000000001e013f52?xsec_token=ABmP5jHB2H3YbsUlgmz2b3yJga0HWgYkQBOYGeeM6Ye50%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《这才是家长用的错题本》· 莫非 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>凭什么作业帮有这个功能……我希望在基础上自主加一些市面上产品还不能实现的功能，比如管理多个学生的错题库、找类似题整理成讲义。</blockquote>
+      <figcaption>
+        <span class="who">良い夜（作者） <b>赞 6</b></span>
+        <a href="https://www.xiaohongshu.com/explore/6a74c9ba0000000008011a15?xsec_token=ABDGbdIlEbh9b0Fx2rU4VP-JCSfCLuNIkWS1AP0nNyRBk%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《用codex做个电子错题本》· 良い夜 ↗</a>
+      </figcaption>
+    </figure></div>
+  </section>
+  <section class="section" id="pressure">
+    <div class="section-head"><span class="no">04</span><h2>用户需求 · 高三与考研：焦虑、孤独、要具体的下一步</h2></div>
+    
+    <p class="lead">这个人群不缺课、不缺题，缺的是「情绪被接住」和「今天到底该干什么」。</p>
+    <h3>4.1 高三：越焦虑成绩越差，需要「把模糊变具体」</h3>
+    <div class="quote-list">
+    <figure class="quote">
+      <blockquote>孩子总觉得其他同学都在欺负她……家长一定要站在孩子这边，支持帮助。</blockquote>
+      <figcaption>
+        <span class="who">luminosity <b>赞 8</b></span>
+        <a href="https://www.xiaohongshu.com/explore/6a831dd50000000005031b25?xsec_token=ABwxVpzgylZsb2j4TokECDoXRq3PbHZBY06HWiGIyp-4s%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《主包高三下学期正式确诊抑郁症和焦虑症，之前也一直是心态非常不好的类型，磕磕绊绊地读完了高》· 猫猫噜噜 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>每次一到考试就焦虑失眠怎么办？</blockquote>
+      <figcaption>
+        <span class="who">蘇_ <b>赞 36</b></span>
+        <a href="https://www.xiaohongshu.com/explore/6a831dd50000000005031b25?xsec_token=ABwxVpzgylZsb2j4TokECDoXRq3PbHZBY06HWiGIyp-4s%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《主包高三下学期正式确诊抑郁症和焦虑症，之前也一直是心态非常不好的类型，磕磕绊绊地读完了高》· 猫猫噜噜 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>晚自习总是特别想哭怎么办？</blockquote>
+      <figcaption>
+        <span class="who">竹山茶 <b>赞 10</b></span>
+        <a href="https://www.xiaohongshu.com/explore/6a831dd50000000005031b25?xsec_token=ABwxVpzgylZsb2j4TokECDoXRq3PbHZBY06HWiGIyp-4s%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《主包高三下学期正式确诊抑郁症和焦虑症，之前也一直是心态非常不好的类型，磕磕绊绊地读完了高》· 猫猫噜噜 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>高三的娃，课补了，题也做了，成绩就是提不上去……一千块钱两小时，补了好几门，发现没补的挺好，补了的还是那么差。</blockquote>
+      <figcaption>
+        <span class="who">么么 <b>赞 2</b></span>
+        <a href="https://www.xiaohongshu.com/explore/69353588000000001b026921?xsec_token=ABO3cuqdVYBWqgGO1STWETxfZfbZwb9BsCBkXNXqqllPE%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《高三的娃，课补了，题也做了，成绩就是提不上去，还有半年就高考了，焦虑 #高考心态很重要 》· 明前板蓝根 ↗</a>
+      </figcaption>
+    </figure></div>
+    <h3>4.2 考研二战：孤独与经济愧疚是主要情绪</h3>
+    <div class="quote-list">
+    <figure class="quote">
+      <blockquote>看着爸妈一天天还在为已经 20 几岁的我奔波劳累，我就觉得自己是吸血鬼。</blockquote>
+      <figcaption>
+        <span class="who">好运菜菜子🍀（笔记正文）</span>
+        <a href="https://www.xiaohongshu.com/explore/6aa66277000000000b035190?xsec_token=ABeSKmckkT6RwmKnulbVK3hdZHXqosh1fjY2Fs8lPcst0%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《二战的我无数次觉得自己是吸血鬼》· 好运菜菜子🍀 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>我是租房子考研，一个人做饭加上备考，确实蛮孤独的，每天必须出去透透气不然学久了受不了。</blockquote>
+      <figcaption>
+        <span class="who">明写春诗 <b>赞 69</b></span>
+        <a href="https://www.xiaohongshu.com/explore/6a93df6a000000000303edb0?xsec_token=ABPBiqsyHuVPybQshsoIdvTpDSj683zipysZTmKXdU8tg%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《是强烈的孤独感》· momo ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>越长大越明白，只有爸妈是无条件爱我的。</blockquote>
+      <figcaption>
+        <span class="who">Athena <b>赞 1</b></span>
+        <a href="https://www.xiaohongshu.com/explore/6aa66277000000000b035190?xsec_token=ABeSKmckkT6RwmKnulbVK3hdZHXqosh1fjY2Fs8lPcst0%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《二战的我无数次觉得自己是吸血鬼》· 好运菜菜子🍀 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>真要学吐了，感觉越来越学不进去，休息一天发现更焦虑了。</blockquote>
+      <figcaption>
+        <span class="who">我想改大手 <b>赞 1</b></span>
+        <a href="https://www.xiaohongshu.com/explore/6aa66277000000000b035190?xsec_token=ABeSKmckkT6RwmKnulbVK3hdZHXqosh1fjY2Fs8lPcst0%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《二战的我无数次觉得自己是吸血鬼》· 好运菜菜子🍀 ↗</a>
+      </figcaption>
+    </figure></div>
+    <h3>4.3 他们要的是「复盘 / 找漏洞」，不是又一节课</h3>
+    <div class="quote-list">
+    <figure class="quote">
+      <blockquote>别一上来就问这题怎么做……周末把错题发给 AI，问：我错在哪里？这些题有什么共同漏洞？下周该先补什么？AI 真正有用的地方，不是替你写答案，而是帮你看见自己卡在哪里。</blockquote>
+      <figcaption>
+        <span class="who">数小二（笔记正文） <b>赞 40</b></span>
+        <a href="https://www.xiaohongshu.com/explore/6a3531ce00000000150261b4?xsec_token=ABPtF5SJvbDEQojqZLGjOO5ThKzkh8UarEUX84NIkEtuQ%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《高中生用AI，别再只问答案了》· 数小二 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>解法我讲得清清楚楚，她当场说懂了，第二天同类题照错。后来改成：我不讲，只问一句「这一步你为什么这么做」；说不清就进错因台账，隔天、三天、一周后各测一次。</blockquote>
+      <figcaption>
+        <span class="who">AI智能体老巴</span>
+        <a href="https://www.xiaohongshu.com/explore/6a3531ce00000000150261b4?xsec_token=ABPtF5SJvbDEQojqZLGjOO5ThKzkh8UarEUX84NIkEtuQ%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《高中生用AI，别再只问答案了》· 数小二 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>有没有一款工具，可以把学生的错题史做成个人数据库，不断帮学生自我剖析，发现潜在错误和知识漏洞并提出方法。</blockquote>
+      <figcaption>
+        <span class="who">胡萝卜</span>
+        <a href="https://www.xiaohongshu.com/explore/6a3531ce00000000150261b4?xsec_token=ABPtF5SJvbDEQojqZLGjOO5ThKzkh8UarEUX84NIkEtuQ%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《高中生用AI，别再只问答案了》· 数小二 ↗</a>
+      </figcaption>
+    </figure></div>
+  </section>
+  <section class="section" id="ai-usage">
+    <div class="section-head"><span class="no">05</span><h2>用户需求 · 家长怎么用 AI（以及为什么不用）</h2></div>
+    
+    <p class="lead">这一节直接决定产品定位：家长已经在找「不直接给答案」的工具，但市面上的 AI 让他们失望。</p>
+    <h3>5.1 明确点名要「引导式 AI」的家长</h3>
+    <div class="quote-list">
+    <figure class="quote">
+      <blockquote>市面上有靠谱的 AI 辅导工具吗，不是指批改作业或者直接给答案的那种，是可以跟娃交流、引导娃解题思路的 AI 工具。</blockquote>
+      <figcaption>
+        <span class="who">熊喵启萌（笔记正文，50 赞 / 59 收藏）</span>
+        <a href="https://www.xiaohongshu.com/explore/6a2fea02000000001603e7d9?xsec_token=ABP_9FDOUbs9dCHDijOAtlYGXaahT3BFeDYZRTXoGBF2E%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《市面上有靠谱的AI辅导工具吗，不是指批改作业或者直接给答案的那种，是可以跟娃交流、引导娃》· 熊喵启萌 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>它太急着证明自己能帮上忙了……AI 做家教最大的风险，可能不只是答错题，它也可能因为太快把题讲明白，让学生失去自己想明白的机会。</blockquote>
+      <figcaption>
+        <span class="who">向度之桥（笔记正文）</span>
+        <a href="https://www.xiaohongshu.com/explore/6a7aede9000000002c001b63?xsec_token=ABSj5Mu_EbvaINJA5YoX5v4QrEcNGvvP88x18caKQ6VX8%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《用AI做题真的对孩子有帮助么？》· 向度之桥 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>省去了引导思考过程，这种不太行。</blockquote>
+      <figcaption>
+        <span class="who">取名废 <b>赞 1</b></span>
+        <a href="https://www.xiaohongshu.com/explore/6a7aede9000000002c001b63?xsec_token=ABSj5Mu_EbvaINJA5YoX5v4QrEcNGvvP88x18caKQ6VX8%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《用AI做题真的对孩子有帮助么？》· 向度之桥 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>AI 通用模型现在基本还是直接给答案，或把思路一股脑给出来，没看到有能够一步步引导解题思路的。</blockquote>
+      <figcaption>
+        <span class="who">熊喵启萌</span>
+        <a href="https://www.xiaohongshu.com/explore/6a2fea02000000001603e7d9?xsec_token=ABP_9FDOUbs9dCHDijOAtlYGXaahT3BFeDYZRTXoGBF2E%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《市面上有靠谱的AI辅导工具吗，不是指批改作业或者直接给答案的那种，是可以跟娃交流、引导娃》· 熊喵启萌 ↗</a>
+      </figcaption>
+    </figure></div>
+    <h3>5.2 家长已经在为「不给答案、只给思路」付费</h3>
+    <p>「答疑笔 / 学习机」的种草笔记反复打同一个卖点：<b>扫一下不给答案、先给思路；错题自动归类；举一反三</b>。评论里家长关心的是「能不能推荐同类题」「贵不贵」「会不会分心」——说明这个价值主张被验证了。</p>
+    <div class="quote-list">
+    <figure class="quote">
+      <blockquote>他不是直接给答案，而是先给解题思路。他得顺着提示自己想，想通了再做……错题也能自动收进错题本，还能练同类题。</blockquote>
+      <figcaption>
+        <span class="who">咖啡不加糖（笔记正文，140 赞 / 72 收藏）</span>
+        <a href="https://www.xiaohongshu.com/explore/69a7ff4800000000260331cc?xsec_token=ABugtQt7LlTUripQTGK8rFyrrns9VJ1ZMp48Hjsx9WxBw%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《都快高考了，为啥还是作业全对，考试总错》· 咖啡不加糖 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>这种能根据孩子的错题，智能推荐同类题目类型吗？</blockquote>
+      <figcaption>
+        <span class="who">小红薯6A168458 <b>赞 1</b></span>
+        <a href="https://www.xiaohongshu.com/explore/69b01520000000002602c4fd?xsec_token=ABywHPCtm6SSZzTOzxrzyL4XqKlj3s7HNq_iYgqaWevUs%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《初中生依赖搜题软件，做题不动脑怎么办？》· Amy妈妈eva ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>最满意这个举一反三和错题整理功能，高中题型多，不用费劲巴拉给他找同类题。</blockquote>
+      <figcaption>
+        <span class="who">请叫我哒厨师</span>
+        <a href="https://www.xiaohongshu.com/explore/69a7ff4800000000260331cc?xsec_token=ABugtQt7LlTUripQTGK8rFyrrns9VJ1ZMp48Hjsx9WxBw%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《都快高考了，为啥还是作业全对，考试总错》· 咖啡不加糖 ↗</a>
+      </figcaption>
+    </figure></div>
+    <h3>5.3 AI 讲题被吐槽的地方</h3>
+    <div class="quote-list">
+    <figure class="quote">
+      <blockquote>gpt 讲解跳步不说人话。</blockquote>
+      <figcaption>
+        <span class="who">takimi <b>赞 9</b></span>
+        <a href="https://www.xiaohongshu.com/explore/6a8eae2a0000000024006c25?xsec_token=ABodtjy5j_8gHyHPp9k_Ja6dpyrEIIDx1TMgLJ2ESXeBY%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《ChatGPT的教学能力吊打一半的一对一老师了》· 司狼神威 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>老师 2 句话解决的，它说一大堆。</blockquote>
+      <figcaption>
+        <span class="who">GTAV</span>
+        <a href="https://www.xiaohongshu.com/explore/6a8eae2a0000000024006c25?xsec_token=ABodtjy5j_8gHyHPp9k_Ja6dpyrEIIDx1TMgLJ2ESXeBY%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《ChatGPT的教学能力吊打一半的一对一老师了》· 司狼神威 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>这玩意比大小经常出错，不能细节计算。</blockquote>
+      <figcaption>
+        <span class="who">厉飞雨 <b>赞 5</b></span>
+        <a href="https://www.xiaohongshu.com/explore/6a8eae2a0000000024006c25?xsec_token=ABodtjy5j_8gHyHPp9k_Ja6dpyrEIIDx1TMgLJ2ESXeBY%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《ChatGPT的教学能力吊打一半的一对一老师了》· 司狼神威 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>工科不太行啊，开局画工图，它就教不了，其他知识好多都是业内经验，他给的全是错的。</blockquote>
+      <figcaption>
+        <span class="who">小红薯68EA1AF0 <b>赞 3</b></span>
+        <a href="https://www.xiaohongshu.com/explore/6a8eae2a0000000024006c25?xsec_token=ABodtjy5j_8gHyHPp9k_Ja6dpyrEIIDx1TMgLJ2ESXeBY%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《ChatGPT的教学能力吊打一半的一对一老师了》· 司狼神威 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>豆包做题已经错了两次了，我怀疑我用的是不是 AI。</blockquote>
+      <figcaption>
+        <span class="who">Lin <b>赞 2</b></span>
+        <a href="https://www.xiaohongshu.com/explore/6a8eae2a0000000024006c25?xsec_token=ABodtjy5j_8gHyHPp9k_Ja6dpyrEIIDx1TMgLJ2ESXeBY%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《ChatGPT的教学能力吊打一半的一对一老师了》· 司狼神威 ↗</a>
+      </figcaption>
+    </figure></div>
+  </section>
+  <section class="section" id="redline">
+    <div class="section-head"><span class="no">06</span><h2>红线 · 搜题依赖与考试作弊</h2></div>
+    
+    <p class="lead">真实存在、且数量不小。产品必须主动切割。</p>
+    <div class="quote-list">
+    <figure class="quote">
+      <blockquote>作业全对，同类题型一考就错。后来发现是家里老人用搜题软件直接给答案。</blockquote>
+      <figcaption>
+        <span class="who">Tracy（西安交大学生兼职家教）</span>
+        <a href="https://www.xiaohongshu.com/explore/68f8f84f0000000004021b0b?xsec_token=ABsYNhJfFwGH8SM710sVxOsai5EQjvz-20TpEG5ZR90N4%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《因为不让用搜题软件，被婉拒》· Tracy ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>孩子做题速度快得不正常，步骤完美到不像他水平，一问思路就支支吾吾，稍微变个题型立刻不会。作业看着全对，考试一塌糊涂。</blockquote>
+      <figcaption>
+        <span class="who">数学微光（老师）</span>
+        <a href="https://www.xiaohongshu.com/explore/69cce508000000001a037ee6?xsec_token=ABzu9vy_o_RsB7Gj49CxMM-1FDnrwt4p_VKfxThYJrzzM%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《老师崩溃｜孩子全靠搜题，我该不该告诉家长？》· 数学微光 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>我家娃高三第二学期……给了手机让他答疑用之后，成绩开始下滑。遇到简单的题也拿手机查，稍一变形就写不出来。</blockquote>
+      <figcaption>
+        <span class="who">咖啡不加糖</span>
+        <a href="https://www.xiaohongshu.com/explore/69a7ff4800000000260331cc?xsec_token=ABugtQt7LlTUripQTGK8rFyrrns9VJ1ZMp48Hjsx9WxBw%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《都快高考了，为啥还是作业全对，考试总错》· 咖啡不加糖 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>iOS 旁白搜题真的可以吗？不会被发现吗？（570 条评论，大量「不用截图、不会被检测、今天刚考完」）。</blockquote>
+      <figcaption>
+        <span class="who">momo（笔记正文）</span>
+        <a href="https://www.xiaohongshu.com/explore/6a395055000000001503df72?xsec_token=ABq7w0uT_Pb9ToUhUAfDGorzMXXHD5uw3t0A3GtQTM6CY%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《ios旁白搜题真的可以吗？不会被发现吗》· momo ↗</a>
+      </figcaption>
+    </figure></div>
+    <p class="note">处理方式：内容里不做任何考试场景的「避检测」暗示；对外定位只讲「看懂 + 追问 + 复习」，不讲「拍一下出答案」。</p>
+  </section>
+  <section class="section" id="competitors">
+    <div class="section-head"><span class="no">07</span><h2>竞品缺陷清单</h2></div>
+    
+    <p class="lead">40 篇竞品吐槽笔记、439 条评论。只收录「用户明确说出来的产品/服务缺陷」，营销软文与职场合集已剔除。每条都带原帖链接。</p>
+    <section class="brand">
+      <h3>小猿 AI / 小猿搜题</h3>
+      
+    <article class="defect">
+      <div class="defect-head"><span class="sev sev-high">高</span><h4>答案错误，且 AI 自己承认算错后仍然「讲得像屎一样」</h4></div>
+      <p>错答案 → 用户反复验算对不上 → AI 承认算错 → 再问又讲不清楚。这是家长最不能接受的失败模式：不是不会，是「理直气壮地错」。</p>
+      <div class="defect-evidence">
+    <figure class="quote">
+      <blockquote>小猿搜题直接给我搬出了错误答案，我在草稿本上反复计算那个答案……结果他自己说他算错了，我要打死它啊啊啊。然后下午我又问了一道，结果他又讲的像屎一样，一切靠自己。</blockquote>
+      <figcaption>
+        <span class="who">我不能再熬夜了（笔记正文）</span>
+        <a href="https://www.xiaohongshu.com/explore/6815d22200000000220246b3?xsec_token=AB2FuUO0B217SGGIR5Mzf-CiYdhiK_sMuSEZ_HRmj9LGs%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《有时候会被Al气死》· 我不能再熬夜了 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>我也要被 AI 气死了，什么时候能整治一下这个破 AI 回答啊。</blockquote>
+      <figcaption>
+        <span class="who">小狗脚不臭！ <b>赞 1</b></span>
+        <a href="https://www.xiaohongshu.com/explore/6815d22200000000220246b3?xsec_token=AB2FuUO0B217SGGIR5Mzf-CiYdhiK_sMuSEZ_HRmj9LGs%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《有时候会被Al气死》· 我不能再熬夜了 ↗</a>
+      </figcaption>
+    </figure></div>
+    </article>
+      
+    <article class="defect">
+      <div class="defect-head"><span class="sev sev-high">高</span><h4>搜不出题、解析不全、客服只有机器人</h4></div>
+      <p>付费会员遇到搜不到题 + 解析错误时，反馈入口只有对话框，且全是机器人回复——付费用户直接流失。</p>
+      <div class="defect-evidence">
+    <figure class="quote">
+      <blockquote>没有买小猿搜题年卡的不要买了，搜索不出来，还没有客服，还不能投诉！用流量都刷不出题！</blockquote>
+      <figcaption>
+        <span class="who">石桥禅（笔记正文）</span>
+        <a href="https://www.xiaohongshu.com/explore/6809d90d000000001c034b48?xsec_token=ABro0Er4V3jzzuoRBsFFBCVRZQrSE2Qg4jfqMjHO3G6oc%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《小猿搜题太差劲了》· 石桥禅 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>有错题解析不对，反馈的只有一个对话框，让上传截图、留邮箱，然后就没有然后了。反馈好多个，一个回复都没有！</blockquote>
+      <figcaption>
+        <span class="who">石桥禅 <b>赞 1</b></span>
+        <a href="https://www.xiaohongshu.com/explore/6809d90d000000001c034b48?xsec_token=ABro0Er4V3jzzuoRBsFFBCVRZQrSE2Qg4jfqMjHO3G6oc%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《小猿搜题太差劲了》· 石桥禅 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>不是错的，就是解析不全，垃圾的要死。</blockquote>
+      <figcaption>
+        <span class="who">瓶子八国语 <b>赞 3</b></span>
+        <a href="https://www.xiaohongshu.com/explore/6809d90d000000001c034b48?xsec_token=ABro0Er4V3jzzuoRBsFFBCVRZQrSE2Qg4jfqMjHO3G6oc%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《小猿搜题太差劲了》· 石桥禅 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>用 ai 了，降成本了，现在的解答全是 ai。</blockquote>
+      <figcaption>
+        <span class="who">小红薯67B5CF6A</span>
+        <a href="https://www.xiaohongshu.com/explore/6809d90d000000001c034b48?xsec_token=ABro0Er4V3jzzuoRBsFFBCVRZQrSE2Qg4jfqMjHO3G6oc%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《小猿搜题太差劲了》· 石桥禅 ↗</a>
+      </figcaption>
+    </figure></div>
+    </article>
+      
+    <article class="defect">
+      <div class="defect-head"><span class="sev sev-mid">中</span><h4>学习机售后：想几点打电话就几点打，约不到时间</h4></div>
+      <p>硬件产品线（学习机）的售后体验拖累品牌口碑，用户把「售后专员」当成品牌的一部分。</p>
+      <div class="defect-evidence">
+    <figure class="quote">
+      <blockquote>也不知道小猿的售后专员是什么级别，好像权利很大的样子，想几点给客户打电话就几点打，每次挑别人午休或者吃饭时间，我说能不能提前约时间，结果好几次约不到。</blockquote>
+      <figcaption>
+        <span class="who">长江孤影（笔记正文）</span>
+        <a href="https://www.xiaohongshu.com/explore/6ad4708a0000000026033a5d?xsec_token=ABvTr3bzqqKb-KWR39uT7ZrQF7IN8gcw4gTjp28Aelqmg%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《小猿学习机避雷》· 长江孤影 ↗</a>
+      </figcaption>
+    </figure></div>
+    </article>
+      
+    <article class="defect">
+      <div class="defect-head"><span class="sev sev-low">观察</span><h4>老功能被砍，老用户情感流失</h4></div>
+      <p>科普/短篇小说/深夜点歌台等栏目被砍、猿题库 2022 年停更——用户记得并怀念，说明「工具之外的内容/陪伴」曾是差异化。</p>
+      <div class="defect-evidence">
+    <figure class="quote">
+      <blockquote>以前有各种有趣的栏目，深夜点歌台、化学实验、小猿日签……现在都变成纯粹的搜题软件了。</blockquote>
+      <figcaption>
+        <span class="who">咖啡因 <b>赞 10</b></span>
+        <a href="https://www.xiaohongshu.com/explore/69399e87000000001e03a743?xsec_token=AB9LimOghR_i1MDsVNaJgEqu3kRP9uupbwY9VovfsTlFA%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《求答：小猿搜题APP以前的一些栏目去哪了？ 小猿搜题之前没有这种ai功能时大概就去年或者》· 坠落的冒险星星 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>如果可以还原成以前的小猿搜题，在此基础上加上 AI 就好了。</blockquote>
+      <figcaption>
+        <span class="who">坠落的冒险星星 <b>赞 1</b></span>
+        <a href="https://www.xiaohongshu.com/explore/69399e87000000001e03a743?xsec_token=AB9LimOghR_i1MDsVNaJgEqu3kRP9uupbwY9VovfsTlFA%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《求答：小猿搜题APP以前的一些栏目去哪了？ 小猿搜题之前没有这种ai功能时大概就去年或者》· 坠落的冒险星星 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>19 年参加的高考，谢谢小猿陪伴……原来猿题库 2022 年就不再更新了。</blockquote>
+      <figcaption>
+        <span class="who">Zoey7（笔记正文）</span>
+        <a href="https://www.xiaohongshu.com/explore/69338f3d000000000d03c0ad?xsec_token=ABsIIj8wXxNGksvXDBDLCc9bU9EfgvLD9ix3SXEb4U0tk%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《原来猿题库2022年就不再更新了》· Zoey7 ↗</a>
+      </figcaption>
+    </figure></div>
+    </article>
+      <p class="note">正面口碑（要抢的）：准确率高、免费解析详细、无广告。「小猿搜题基础解析免费真的赢麻了，别的软件拍完只给答案，看步骤得充钱」（6a2fea02 评论区）。</p>
+    </section>
+
+    <section class="brand">
+      <h3>作业帮</h3>
+      
+    <article class="defect">
+      <div class="defect-head"><span class="sev sev-high">高</span><h4>答案错误 / 答案不统一：会员视频解析和答主答案互相打架</h4></div>
+      <p>同一道题，VIP 视频说一个答案、答主说另外两个答案，用户自己/同事算出来是第三个——付费买到的不是确定答案，而是更多困惑。</p>
+      <div class="defect-evidence">
+    <figure class="quote">
+      <blockquote>五年级的浅奥题不会辅导，作业帮只给个答案 6 千米每小时。开了会员看了视频解析和三个答主解答，视频和一个答主说 6，另两个答主说 12，我发给同事，两个同事都解出来 18。立刻把自动续费关了。</blockquote>
+      <figcaption>
+        <span class="who">草草石（笔记正文）</span>
+        <a href="https://www.xiaohongshu.com/explore/67175b59000000001b03dd55?xsec_token=ABQ9dyGEJ7HZXYSD_y4w78_jhf2P66ueF7oScdmCB3fb4%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《作业帮的答案是错的吧，又是白充的会员》· 草草石 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>买了 vip 感觉买了个寂寞，就搜这么一道题，题目正确解题答案不对，要不就是题目不对，感觉搜完答案我还得再自己计算一遍。</blockquote>
+      <figcaption>
+        <span class="who">范思哲0921💚（笔记正文）</span>
+        <a href="https://www.xiaohongshu.com/explore/6879c63900000000100266d0?xsec_token=ABVCwYjploKNtHJNuBO_HYBakXdsZtRwIIt1fCKP7cBgk%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《作业帮这错误有点离谱》· 范思哲0921💚 ↗</a>
+      </figcaption>
+    </figure></div>
+    </article>
+      
+    <article class="defect">
+      <div class="defect-head"><span class="sev sev-mid">中</span><h4>VIP 视频讲题换成 AI，用户明显不满</h4></div>
+      <p>「为什么现在作业帮 vip 视频讲题是 ai 啊」——付费权益被 AI 替换，用户感知为降级。</p>
+      <div class="defect-evidence">
+    <figure class="quote">
+      <blockquote>为什么现在作业帮 vip 视频讲题是 ai 啊。</blockquote>
+      <figcaption>
+        <span class="who">神经蛙</span>
+        <a href="https://www.xiaohongshu.com/explore/667f34b4000000001c02ad50?xsec_token=ABl3Nt4lRt7bQZEYOrXAXhtFvW7roSe8QDARiAG2zIAYo%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《作业帮搜题vip充值避雷帖》· 。 ↗</a>
+      </figcaption>
+    </figure></div>
+    </article>
+      
+    <article class="defect">
+      <div class="defect-head"><span class="sev sev-mid">中</span><h4>买会员后被电销骚扰</h4></div>
+      <p>「买了 VIP 弹出企业微信说有会员福利，加了微信让我领课程，半小时没回电话就打过来了。跑了跑了。」</p>
+      <div class="defect-evidence">
+    <figure class="quote">
+      <blockquote>买了 vip 弹出个企业微信说有会员福利，加了微信让我领取课程，我半小时没回微信电话就打过来了。跑了跑了。</blockquote>
+      <figcaption>
+        <span class="who">草草石</span>
+        <a href="https://www.xiaohongshu.com/explore/67175b59000000001b03dd55?xsec_token=ABQ9dyGEJ7HZXYSD_y4w78_jhf2P66ueF7oScdmCB3fb4%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《作业帮的答案是错的吧，又是白充的会员》· 草草石 ↗</a>
+      </figcaption>
+    </figure></div>
+    </article>
+      
+    <article class="defect">
+      <div class="defect-head"><span class="sev sev-mid">中</span><h4>学习机：性价比低、识别不稳、质量/售后差</h4></div>
+      <p>主打功能「普通平板装 APP 都能实现」；摄像头识别偶尔不稳；屏幕弯曲、触摸失灵等质量问题；售后流程繁琐。</p>
+      <div class="defect-evidence">
+    <figure class="quote">
+      <blockquote>别买作业帮学习机！纯纯大鸡肋……主打的同步教材、AI 讲题、作业批改，普通平板装个对应 APP 基本都能实现。摄像头识别偶尔不太稳，花几千块买个阉割版平板，还要忍受售后糟心。</blockquote>
+      <figcaption>
+        <span class="who">momo（笔记正文，92 赞）</span>
+        <a href="https://www.xiaohongshu.com/explore/69e483f50000000023027235?xsec_token=ABlMpDOkKufynLjM9LxVoc8sBZ_yP_X4HeDS7cFldw5ss%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《作业帮学习机真实感受｜理性劝退》· momo ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>去年 8 月买的，昨天就出问题了，滑屏打不开，触摸完全无效，对这个质量真的持怀疑态度。</blockquote>
+      <figcaption>
+        <span class="who">猜猜我是谁 <b>赞 15</b></span>
+        <a href="https://www.xiaohongshu.com/explore/69e483f50000000023027235?xsec_token=ABlMpDOkKufynLjM9LxVoc8sBZ_yP_X4HeDS7cFldw5ss%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《作业帮学习机真实感受｜理性劝退》· momo ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>作业帮真心不行，有些功能仅支持小初，讲课也一般。</blockquote>
+      <figcaption>
+        <span class="who">所愿皆所成</span>
+        <a href="https://www.xiaohongshu.com/explore/69e483f50000000023027235?xsec_token=ABlMpDOkKufynLjM9LxVoc8sBZ_yP_X4HeDS7cFldw5ss%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《作业帮学习机真实感受｜理性劝退》· momo ↗</a>
+      </figcaption>
+    </figure></div>
+    </article>
+      
+    <article class="defect">
+      <div class="defect-head"><span class="sev sev-mid">中</span><h4>第三方低价会员诈骗（渠道问题，但伤害品牌）</h4></div>
+      <p>淘宝/闲鱼低价代充大量跑路（用了 1-2 个月店铺消失），用户维权困难。官方客服在评论区承认「容易有售后问题」——说明官方渠道定价与信任成本之间存在裂缝。</p>
+      <div class="defect-evidence">
+    <figure class="quote">
+      <blockquote>某宝买的作业帮会员，便宜，结果只有一个月，到期后再联系已经人去楼空。大家一定要谨慎购买。</blockquote>
+      <figcaption>
+        <span class="who">一二三四五（笔记正文，76 赞）</span>
+        <a href="https://www.xiaohongshu.com/explore/660165290000000012034f5a?xsec_token=ABjbx40ts1diQqWM_9W47a0cIjKtU8Ji8VQewlTrcf2wM%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《敲黑板，注意了！乖乖买作业帮会员！》· 一二三四五 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>我买了 2 年，150 元，商家充值到自己账户，用了半个月就被退款了。</blockquote>
+      <figcaption>
+        <span class="who">爱吃牛油果的茉茉 <b>赞 7</b></span>
+        <a href="https://www.xiaohongshu.com/explore/660165290000000012034f5a?xsec_token=ABjbx40ts1diQqWM_9W47a0cIjKtU8Ji8VQewlTrcf2wM%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《敲黑板，注意了！乖乖买作业帮会员！》· 一二三四五 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>对的，容易有售后问题，不要贪小便宜。</blockquote>
+      <figcaption>
+        <span class="who">作业帮VIP <b>赞 8</b></span>
+        <a href="https://www.xiaohongshu.com/explore/667f34b4000000001c02ad50?xsec_token=ABl3Nt4lRt7bQZEYOrXAXhtFvW7roSe8QDARiAG2zIAYo%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《作业帮搜题vip充值避雷帖》· 。 ↗</a>
+      </figcaption>
+    </figure></div>
+    </article>
+      <p class="note">正面口碑（要抢的）：题库大、功能全（举一反三 / 同类题 / 按地区筛试卷）、举报错题后会更新。</p>
+    </section>
+
+    <section class="brand">
+      <h3>豆包爱学</h3>
+      
+    <article class="defect">
+      <div class="defect-head"><span class="sev sev-mid">中</span><h4>准确率 / 幻觉：简单题也会错，专业领域「无法胜任」</h4></div>
+      <p>样本量偏小（小红书里关于「豆包爱学」的负面讨论不如其他品牌集中），但「做题会错、需要自己复核」的评价反复出现。</p>
+      <div class="defect-evidence">
+    <figure class="quote">
+      <blockquote>豆包做题已经错了两次了，我怀疑我用的是不是 AI。把简单题丢给豆包，有点不放心我又检查了下。</blockquote>
+      <figcaption>
+        <span class="who">Lin <b>赞 2</b></span>
+        <a href="https://www.xiaohongshu.com/explore/6a8eae2a0000000024006c25?xsec_token=ABodtjy5j_8gHyHPp9k_Ja6dpyrEIIDx1TMgLJ2ESXeBY%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《ChatGPT的教学能力吊打一半的一对一老师了》· 司狼神威 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>但凡涉及到偏专业的领域，豆包都是无法胜任的……真做任务豆包其实很难胜任。</blockquote>
+      <figcaption>
+        <span class="who">Merlin <b>赞 7</b></span>
+        <a href="https://www.xiaohongshu.com/explore/6ad1ae150000000014001634?xsec_token=ABrm3grBAqE5J5wGBn0xAt4ikZFWLeFEstFXPXA56ZEfw%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《用豆包怎么了》· momo ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>嘲讽虽然不对，但是这个豆包真的有点 r 智，有些问题得问两遍才能对。</blockquote>
+      <figcaption>
+        <span class="who">罪恶bug <b>赞 3</b></span>
+        <a href="https://www.xiaohongshu.com/explore/6ad1ae150000000014001634?xsec_token=ABrm3grBAqE5J5wGBn0xAt4ikZFWLeFEstFXPXA56ZEfw%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《用豆包怎么了》· momo ↗</a>
+      </figcaption>
+    </figure></div>
+    </article>
+      <p class="note">该批次搜索「豆包爱学 吐槽 / 不好用」时，相关笔记数量明显少于其他品牌，多为闲聊与玩梗；结论需谨慎，建议补充定向搜索（如「豆包 讲题」「豆包 错题」）。</p>
+    </section>
+
+    <section class="brand">
+      <h3>千问</h3>
+      
+    <article class="defect">
+      <div class="defect-head"><span class="sev sev-high">高</span><h4>收费突变 / 基础功能会员化：单帖 29 条评论一边倒</h4></div>
+      <p>从「无限额」到每日 40 积分再到收费；照片修复、超清等用户认为的基础功能变成会员功能。大量用户直接卸载——收费本身不是问题，突袭式收费才是。</p>
+      <div class="defect-evidence">
+    <figure class="quote">
+      <blockquote>从一开始无限额使用，到后面每天 40 积分，现在演都不演了，都要收费了生怕用户太多了吗。</blockquote>
+      <figcaption>
+        <span class="who">超雄滋滋奈（笔记正文）</span>
+        <a href="https://www.xiaohongshu.com/explore/6ab4c7eb0000000012036781?xsec_token=ABcRB-AuI67Z9gYyn-ag4vCmK6fUKcdN8f7YTA7SpNk_U%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《千问现在要收费了》· 超雄滋滋奈 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>最贪的 ai，别家处理个图片免费，只有这家收费，删了。</blockquote>
+      <figcaption>
+        <span class="who">正木 <b>赞 19</b></span>
+        <a href="https://www.xiaohongshu.com/explore/6ab4c7eb0000000012036781?xsec_token=ABcRB-AuI67Z9gYyn-ag4vCmK6fUKcdN8f7YTA7SpNk_U%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《千问现在要收费了》· 超雄滋滋奈 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>提高清晰度这么基础的功能都成会员功能了，千问吃相太难看了。</blockquote>
+      <figcaption>
+        <span class="who">明天你好 <b>赞 8</b></span>
+        <a href="https://www.xiaohongshu.com/explore/6ab4c7eb0000000012036781?xsec_token=ABcRB-AuI67Z9gYyn-ag4vCmK6fUKcdN8f7YTA7SpNk_U%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《千问现在要收费了》· 超雄滋滋奈 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>前面几个月用下来感觉不错，现在发个图随便输个指令都要会员，一旦不免费就觉得好像也不是很需要用它。</blockquote>
+      <figcaption>
+        <span class="who">Nemo <b>赞 1</b></span>
+        <a href="https://www.xiaohongshu.com/explore/6ab4c7eb0000000012036781?xsec_token=ABcRB-AuI67Z9gYyn-ag4vCmK6fUKcdN8f7YTA7SpNk_U%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《千问现在要收费了》· 超雄滋滋奈 ↗</a>
+      </figcaption>
+    </figure></div>
+    </article>
+      
+    <article class="defect">
+      <div class="defect-head"><span class="sev sev-high">高</span><h4>答非所问 / 自造信息：用户点名「造谣」</h4></div>
+      <p>生成视频、查股票涨停等场景出现「全程自我生成虚假信息」；平时也有「答非所问、像查字典、没人情味」的评价。</p>
+      <div class="defect-evidence">
+    <figure class="quote">
+      <blockquote>今天千问公测……完全诠释了什么叫答非所问，以及什么叫造谣。说某股票 25 年 8 月涨停报收 10.43 元，连原因都写好了；实际上一次涨停在 2022 年。</blockquote>
+      <figcaption>
+        <span class="who">N思维囚徒（笔记正文，98 赞）</span>
+        <a href="https://www.xiaohongshu.com/explore/691addee000000000401058b?xsec_token=ABxmP3Lugox3HhU8A08-2DNCjYlnwyFMrZ84EBrgEI08g%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《千问ai真的很垃圾》· N思维囚徒 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>感觉这个 AI 就是很注重拓展性，但是没有针对一个问题深入的去回答，感觉就答非所问，就像你问他怎么做番茄炒蛋，他给你拓展到番茄炒蛋的营养价值。</blockquote>
+      <figcaption>
+        <span class="who">嘿嘶起买 <b>赞 20</b></span>
+        <a href="https://www.xiaohongshu.com/explore/691addee000000000401058b?xsec_token=ABxmP3Lugox3HhU8A08-2DNCjYlnwyFMrZ84EBrgEI08g%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《千问ai真的很垃圾》· N思维囚徒 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>铺天盖地的千问广告，合计下一个试试。结果用起来体验太差了，好像听不懂提问的需求，给出的回答驴唇不对马嘴。</blockquote>
+      <figcaption>
+        <span class="who">小红薯BEBEA4D4（笔记正文）</span>
+        <a href="https://www.xiaohongshu.com/explore/6920f320000000001e0002e7?xsec_token=ABTZrmNevgcKQF-ujcVd1-6PbMghapmUKux1_tT65hT_M%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《千问究竟是不会用还是确实很差》· 小红薯BEBEA4D4 ↗</a>
+      </figcaption>
+    </figure></div>
+    </article>
+      
+    <article class="defect">
+      <div class="defect-head"><span class="sev sev-mid">中</span><h4>账号封禁不透明 / 相机拍出来是歪的</h4></div>
+      <p>用户仅搜索资料就被封号，官方客服回复「已提交技术核查」但没有解释；另有「千问相机拍出来的为什么是歪的」。</p>
+      <div class="defect-evidence">
+    <figure class="quote">
+      <blockquote>就单纯搜索了一下硅基流动的资料就给我封号了？</blockquote>
+      <figcaption>
+        <span class="who">红豆稀饭（笔记正文）</span>
+        <a href="https://www.xiaohongshu.com/explore/6a5a446c000000002201a648?xsec_token=AB0AoazwyIocUG05t4kWe9uswYD5oT43ZEWWskRN07fE8%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《千问你也太离谱了吧》· 红豆稀饭 ↗</a>
+      </figcaption>
+    </figure>
+    <figure class="quote">
+      <blockquote>千问相机拍出来的为什么是歪的。</blockquote>
+      <figcaption>
+        <span class="who">only</span>
+        <a href="https://www.xiaohongshu.com/explore/691addee000000000401058b?xsec_token=ABxmP3Lugox3HhU8A08-2DNCjYlnwyFMrZ84EBrgEI08g%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《千问ai真的很垃圾》· N思维囚徒 ↗</a>
+      </figcaption>
+    </figure></div>
+    </article>
+      
+    <article class="defect">
+      <div class="defect-head"><span class="sev sev-low">观察</span><h4>（开发者侧）API 慢、贵、缓存命中低</h4></div>
+      <p>「阿里云百炼部署的 DeepSeek 只有 50-80 tokens/s，官渠 200+」——影响的是 B 端/开发者口碑，学生端不直接感知。</p>
+      <div class="defect-evidence">
+    <figure class="quote">
+      <blockquote>避雷阿里云百炼/千问 AI 的 Token Plan……慢得和乌龟一样，用回深度求索的 API 才发现原来 AI 干活能这么快！</blockquote>
+      <figcaption>
+        <span class="who">天平架（笔记正文）</span>
+        <a href="https://www.xiaohongshu.com/explore/6ab9e7a20000000013019d88?xsec_token=ABUQER77z8fN-5ygPZkINrsDkx0DJMyMebB_jnN7oQieg%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《避雷阿里云百炼/千问AI Token Plan》· 天平架 ↗</a>
+      </figcaption>
+    </figure></div>
+    </article>
+    </section>
+
+    <section class="brand">
+      <h3>其他搜题软件（长尾竞品）</h3>
+      
+    <article class="defect">
+      <div class="defect-head"><span class="sev sev-mid">中</span><h4>考试宝：免费只能搜 10 题、强制年费、异地登录封号、答案前后不一致</h4></div>
+      <p>「拍照搜题加载非常慢，考试根本来不及」——把搜题用在考试场景本身也说明产品定位在滑向作弊工具。</p>
+      <div class="defect-evidence">
+    <figure class="quote">
+      <blockquote>不开会员只能免费搜题 10 道，然后被迫开了会员还是年费会员，因为没有单天的。限制异地登录，结果还不到 5 天就被封了……答案前后不一致或者是乱码，拍照搜题加载非常慢。</blockquote>
+      <figcaption>
+        <span class="who">小红薯62170EF6（笔记正文）</span>
+        <a href="https://www.xiaohongshu.com/explore/6a8ea28a000000000b0267e5?xsec_token=ABodtjy5j_8gHyHPp9k_Ja6cb7aWi3PP8mYDbaz7sdgZM%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《避雷考试宝！不要充值》· 小红薯62170EF6 ↗</a>
+      </figcaption>
+    </figure></div>
+    </article>
+      
+    <article class="defect">
+      <div class="defect-head"><span class="sev sev-mid">中</span><h4>火星搜题：过度索权、疑似被卸载/安装应用（安全红线）</h4></div>
+      <p>搜题软件要求屏幕权限，次日手机应用被卸载、出现陌生应用。无论是否软件所为，都是隐私/安全信任的致命信号。</p>
+      <div class="defect-evidence">
+    <figure class="quote">
+      <blockquote>搜题必须要授权整个屏幕的权限……第二天早上手机里被卸载了好多应用，还多了几个没下载过的应用。太可怕了，提醒各位不要给应用乱授权。</blockquote>
+      <figcaption>
+        <span class="who">萌新（笔记正文）</span>
+        <a href="https://www.xiaohongshu.com/explore/6a55835a0000000011012316?xsec_token=AB5cy2f0t8YxF0SAS7KCeJrUa1pRtpGf5lxgfhEd2sl6s%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《避雷！火星搜题》· 萌新 ↗</a>
+      </figcaption>
+    </figure></div>
+    </article>
+      
+    <article class="defect">
+      <div class="defect-head"><span class="sev sev-mid">中</span><h4>多家工具答案互不一致，「搜半天就对一题」</h4></div>
+      <p>学生同时打开多个搜题工具对答案，本身就是对单家工具信任不足的表现——这也解释了上一批里「百度拍题被夸：AI 解法 + 传统思路互相验证」。</p>
+      <div class="defect-evidence">
+    <figure class="quote">
+      <blockquote>这个 sb 大学搜题酱 sb 豆包 sb deepseek，答案不统一，一个特码也不对，搜半天就对一题。</blockquote>
+      <figcaption>
+        <span class="who">Angelashuo（笔记正文）</span>
+        <a href="https://www.xiaohongshu.com/explore/6ab22f2c000000003b0059ea?xsec_token=AB9Qs1Z93VemnnkYR-mWIu506JxcCi1w3JLvib3tKshE0%3D&amp;xsec_source=pc_feed" target="_blank" rel="noopener">《我真特码气死了》· Angelashuo ↗</a>
+      </figcaption>
+    </figure></div>
+    </article>
+    </section>
+  </section>
+  <section class="section" id="implications">
+    <div class="section-head"><span class="no">08</span><h2>对「学会了鸭」的产品启示</h2></div>
+    
+    <p class="lead">把上面两批结论映射到现有能力。优先级：P0 = 直接决定「家长敢不敢用」，P1 = 差异化定位，P2 = 后续增长。</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>用户原声 / 需求</th><th>我们的现有能力</th><th>建议动作</th><th>优先级</th></tr></thead>
+        <tbody>
+          <tr><td>「AI 算错、拍三遍答案不一样」——家长不敢用</td><td>答案 + 分步推导 + 追问依据 ✅ 无交叉验证</td><td><b>可信度工程</b>：答案旁标注「可核验步骤」；给「另一种解法」对照；识别不确定时明说；错题可上报</td><td><span class="p p0">P0</span></td></tr>
+          <tr><td>「不是直接给答案，是引导娃思路」——家长明确点名</td><td>追问（换个说法/举个例子/为什么这样做）✅</td><td><b>家长模式</b>：默认「只讲解、不直接给答案」；讲完反问一句「这一步为什么这么做」；答不上来就不算过</td><td><span class="p p0">P0</span></td></tr>
+          <tr><td>「作业全对、一考就错」——老师与家长共同焦虑</td><td>解题记录 ✅ 无学情诊断</td><td>把记录页升级成<b>学情页</b>：错因标签（概念/审题/计算/思路）+ 薄弱知识点 + 每周复盘</td><td><span class="p p0">P0</span></td></tr>
+          <tr><td>「错题本抄题太花时间、复习没节奏、不知道自己错在哪」</td><td>记忆卡 + SRS 遗忘曲线 ✅</td><td><b>拍照入错题本</b>：整页拍照 →（人工确认）切题 → 自动生成错因/知识点标签 → 按 SRS 排期 → 变式题</td><td><span class="p p1">P1</span></td></tr>
+          <tr><td>「检查作业至少 40 分钟，还看走眼」</td><td>无整页批改 ❌</td><td>作业检查（拍整页 → 对错标记 → 错题入卡）。注意：批改准确率是硬门槛，宁可标「不确定」也不要错判</td><td><span class="p p1">P1</span></td></tr>
+          <tr><td>「讲了三遍还是同一种眼神」——家长的情绪成本</td><td>AI 讲题 ✅ 情绪价值未表达 ❌</td><td>文案与体验上明确「换讲法」：同一道题一键换三种讲法；家长端提供「先歇 12 秒」的轻提示（心理老师给的方法）</td><td><span class="p p1">P1</span></td></tr>
+          <tr><td>「搜题 = 抄答案」污名 + 旁白搜题黑产</td><td>—</td><td><b>品牌切割</b>：对外只说「看懂 + 追问 + 复习」；营销素材不出现「拍一下出答案」；不做任何考试场景暗示</td><td><span class="p p0">P0</span></td></tr>
+          <tr><td>考研二战 / 高三：孤独、焦虑、要具体下一步</td><td>—</td><td>轻量「每日复盘 + 进度可视化 + 鼓励」；<b>医疗边界</b>：不提供抑郁/焦虑的判断或治疗建议，遇到严重表述只引导求助专业人士</td><td><span class="p p2">P2</span></td></tr>
+          <tr><td>用户已经在用 codex/飞书/Obsidian 手搓错题系统</td><td>—</td><td>这是<b>需求验证</b>也是<b>先发对手</b>；若推出「错题本」，功能清单直接抄用户评论（标签、重做时间、变式题、导出打印）</td><td><span class="p p2">P2</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>一句话定位（建议）</h3>
+    <p class="callout">竞品都在卖「拍一下就出答案」；「学会了鸭」真正该卖的是<b>「问到懂 + 复习到记住」</b>。家长端：「今晚不用讲到血压升高，孩子当场讲得出来」；学生端：「第二次不再错」。</p>
+  </section>
+  <section class="section" id="method">
+    <div class="section-head"><span class="no">09</span><h2>方法与样本</h2></div>
+    
+    <p class="lead">所有内容来自小红书公开笔记与评论，经登录态浏览器逐篇打开、滚动加载评论后抓取；引文为原话摘录（个别只做标点/空格规范化）。</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>批次</th><th>关键词</th><th>笔记</th><th>评论</th></tr></thead>
+        <tbody>
+          <tr><td>首批：家长 / 拍照解题 / 考研</td><td>拍照解题 吐槽、辅导孩子写作业 崩溃、辅导作业 家长 吐槽、考研 数学 崩溃、AI 解题 好用吗、拍照搜题 家长</td><td>36</td><td>582</td></tr>
+          <tr><td>竞品吐槽</td><td>小猿AI 吐槽、小猿搜题 避雷、作业帮 吐槽、作业帮 避雷 会员、豆包爱学 吐槽 / 不好用、千问 拍照搜题 吐槽 / 避雷、AI 家教 难用、搜题软件 差评</td><td>40</td><td>439</td></tr>
+          <tr><td>扩样本</td><td>作业检查 崩溃、错题本 方法、错题本 坚持不下来、考研 二战 心态、陪读 妈妈 崩溃、AI 家教 真实体验、小学 数学 家长 不会教、高三 数学 焦虑、搜题软件 依赖、辅导作业 方法</td><td>50</td><td>1000</td></tr>
+          <tr><td><b>合计</b></td><td>—</td><td><b>126</b></td><td><b>2021</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>局限（必须说清楚）</h3>
+    <ul class="limits">
+      <li><b>不是统计抽样</b>：每组只取搜索结果前 4-6 篇，搜索排序带个性化与时效，比例不可外推到全体用户。</li>
+      <li><b>评论区有天花板</b>：每篇只抓取可加载的前 20-45 条评论，长尾没覆盖；爆款笔记评论区有大量玩梗噪音。</li>
+      <li><b>营销内容已剔除或标注</b>：学习机/答疑笔笔记多为种草软文，只用于观察「卖点话术」，不作为事实结论。</li>
+      <li><b>豆包爱学样本偏少</b>：相关吐槽笔记数量明显少于其他品牌，结论需谨慎。</li>
+      <li><b>链接时效</b>：原帖链接带小红书分享参数，可能过期；过期时可在小红书 App 内按「作者 + 标题」搜索。页面只做公开内容的研究性引用。</li>
+    </ul>
+    <h3>建议下一步</h3>
+    <ol class="limits">
+      <li>抓竞品差评的更大样本（小猿 / 作业帮的「会员」「答案错」长尾），做成可跟踪的缺陷看板。</li>
+      <li>按「家长 / 中学生 / 考研」各筛 10-20 个长文作者，做人物画像与付费意愿访谈。</li>
+      <li>把本页「用户原声」直接改写成小红书投放标题做 A/B 测试（先小预算验证）。</li>
+    </ol>
+  </section>
+    <footer>
+      <p>数据来自小红书公开笔记与评论（2026-10-19 抓取，登录态只用于读取公开内容，未发布、未互动）。引文为原话摘录，仅做空格与标点规范化；营销软文已剔除或明确标注。</p>
+      <p>原帖链接带小红书分享参数，可能过期——过期时在 App 内按「作者 + 标题」搜索。本页仅作研究性引用，不代表小红书或任何品牌的立场。</p>
+    </footer>
+  </div>
+</body>
+</html>
